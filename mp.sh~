@@ -1,1 +1,0 @@
-mpicc -g -o mpiput mpiput.c -Llib -lzht -Iinclude -lstdc++ -lprotobuf -lprotobuf-c
