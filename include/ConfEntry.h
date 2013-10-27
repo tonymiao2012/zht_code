@@ -21,16 +21,53 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * ConfEntry.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Aug 7, 2012
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef CONFIGENTRY_H_
+#define CONFIGENTRY_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <string>
+using namespace std;
 
-#endif /* PROTOCOL_SHARED_H_ */
+namespace iit {
+namespace datasys {
+namespace zht {
+namespace dm {
+
+/*
+ *
+ */
+class ConfEntry {
+public:
+	ConfEntry();
+	ConfEntry(const string& sConfigEntry);
+	ConfEntry(const string& name, const string& value);
+	virtual ~ConfEntry();
+
+	string name() const;
+	void name(const string& name);
+
+	string value() const;
+	void value(const string& value);
+
+	string operator()() const;
+	string toString() const;
+	ConfEntry& assign(string sconfigEntry);
+
+	static string getFormat();
+
+private:
+	string _name;
+	string _value;
+};
+
+} /* namespace dm */
+} /* namespace zht */
+} /* namespace datasys */
+} /* namespace iit */
+#endif /* CONFIGENTRY_H_ */

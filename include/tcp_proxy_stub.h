@@ -21,16 +21,64 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * tcp_proxy_stub.h
  *
  *  Created on: Jun 21, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef TCP_PROXY_STUB_H_
+#define TCP_PROXY_STUB_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "ip_proxy_stub.h"
+#include "HTWorker.h"
+#include <pthread.h>
 
-#endif /* PROTOCOL_SHARED_H_ */
+#include <map>
+using namespace std;
+
+/*
+ *
+ */
+class TCPProxy: public IPProtoProxy {
+public:
+	typedef map<string, int> MAP;
+	typedef MAP::iterator MIT;
+
+public:
+	TCPProxy();
+	virtual ~TCPProxy();
+
+	virtual bool sendrecv(const void *sendbuf, const size_t sendcount,
+			void *recvbuf, size_t &recvcount);
+	virtual bool teardown();
+
+protected:
+	virtual int getSockCached(const string& host, const uint& port);
+	virtual int makeClientSocket(const string& host, const uint& port);
+	virtual int recvFrom(int sock, void* recvbuf);
+	virtual int loopedrecv(int sock, string &srecv);
+
+private:
+	int sendTo(int sock, const void* sendbuf, int sendcount);
+
+private:
+	//static MAP CONN_CACHE;
+	MAP CONN_CACHE;
+};
+
+class TCPStub: public IPProtoStub {
+public:
+	TCPStub();
+	virtual ~TCPStub();
+
+	virtual bool recvsend(ProtoAddr addr, const void *recvbuf);
+
+public:
+	virtual int sendBack(ProtoAddr addr, const void* sendbuf,
+			int sendcount) const;
+
+};
+
+#endif /* TCP_PROXY_STUB_H_ */

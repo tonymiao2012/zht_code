@@ -21,16 +21,71 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * Const-impl.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Feb 13, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef CONST_IMPL_H_
+#define CONST_IMPL_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "Const.h"
 
-#endif /* PROTOCOL_SHARED_H_ */
+#include <stdlib.h>
+#include <sstream>
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+namespace iit {
+namespace datasys {
+namespace zht {
+namespace dm {
+
+template<class TYPE> int Const::toInt(const TYPE& ele) {
+
+	return atoi(toString(ele).c_str());
+}
+
+template<class TYPE> uint64_t Const::toUInt64(const TYPE& ele) {
+
+	return strtoull(toString(ele).c_str(), NULL, 10);
+}
+
+template<class TYPE> string Const::toString(const TYPE& ele) {
+
+	stringstream ss;
+	ss << ele;
+
+	return ss.str();
+}
+
+template<class TYPE1, class TYPE2> string Const::concat(const TYPE1& ele1,
+		const TYPE2& ele2) {
+
+	stringstream ss;
+	ss << ele1;
+	ss << ele2;
+
+	return ss.str();
+}
+
+template<class TYPE1, class TYPE2> string Const::concat(const TYPE1& ele1,
+		const string& delimiter, const TYPE2& ele2) {
+
+	stringstream ss;
+	ss << ele1;
+	ss << delimiter;
+	ss << ele2;
+
+	return ss.str();
+}
+
+} /* namespace dm */
+} /* namespace zht */
+} /* namespace datasys */
+} /* namespace iit */
+#endif /* CONST_IMPL_H_ */

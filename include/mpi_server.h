@@ -21,16 +21,37 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * mpi_server.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Jul 5, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef MPISERVER_H_
+#define MPISERVER_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "proxy_stub.h"
 
-#endif /* PROTOCOL_SHARED_H_ */
+/*
+ *
+ */
+class MPIServer {
+
+private:
+	MPIServer();
+
+public:
+	MPIServer(int argc, char **argv);
+
+	virtual ~MPIServer();
+
+	void serve();
+
+private:
+	int _argc;
+	char ** _argv;
+	ProtoStub *_stub;
+};
+
+#endif /* MPISERVER_H_ */

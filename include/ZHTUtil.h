@@ -21,16 +21,55 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * ZHTUtil.h
  *
- *  Created on: Jun 21, 2013
- *      Author: Xiaobingo
- *      Contributor: Tony, KWang, DZhao
+ *  Created on: Jun 25, 2013
+ *      Author: Tony
+ *      Contributor: Xiaobingo, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef ZHTUTIL_H_
+#define ZHTUTIL_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <string>
+#include <vector>
+using namespace std;
 
-#endif /* PROTOCOL_SHARED_H_ */
+#include <arpa/inet.h>
+
+struct HostEntity {
+	int sock;
+	string host;
+	int port;
+
+	/*bool valid;
+	 struct sockaddr_in si;
+	 vector<unsigned long long> ringID;*/
+};
+
+/*
+ *
+ */
+class ZHTUtil {
+public:
+	ZHTUtil();
+	virtual ~ZHTUtil();
+
+	HostEntity getHostEntityByKey(const string& msg);
+
+private:
+	HostEntity buildHostEntity(const string& host, const uint& port);
+};
+
+class IdHelper {
+public:
+	IdHelper();
+	virtual ~IdHelper();
+
+	static uint64_t genId();
+
+public:
+	static const uint ID_LEN;
+};
+
+#endif /* ZHTUTIL_H_ */

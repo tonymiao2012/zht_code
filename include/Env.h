@@ -21,16 +21,37 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * Env.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Jun 25, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef ENV_H_
+#define ENV_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <sys/types.h>
+#include <string>
+using namespace std;
 
-#endif /* PROTOCOL_SHARED_H_ */
+class Env {
+public:
+	Env();
+	virtual ~Env();
+
+public:
+
+	static const uint BUF_SIZE; //size of blob transfered from client to server each time
+	static const int MSG_DEFAULTSIZE; //max size of a message in each transfer
+	static const int SCCB_POLL_DEFAULT_INTERVAL; //polling interval for state_change_callback
+
+	static int NUM_REPLICAS;
+	static int REPLICATION_TYPE; //1 for Client-side replication
+
+public:
+	static int get_msg_maxsize();
+	static int get_sccb_poll_interval();
+};
+
+#endif /* ENV_H_ */

@@ -21,16 +21,50 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * mpi_proxy_stub.h
  *
  *  Created on: Jun 21, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef MPI_PROXY_STUB_H_
+#define MPI_PROXY_STUB_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "proxy_stub.h"
 
-#endif /* PROTOCOL_SHARED_H_ */
+/*
+ *
+ */
+class MPIProxy: public ProtoProxy {
+
+public:
+	MPIProxy();
+	virtual ~MPIProxy();
+
+	virtual bool init(int argc, char **argv);
+	virtual bool sendrecv(const void *sendbuf, const size_t sendcount,
+			void *recvbuf, size_t &recvcount);
+
+private:
+	virtual int get_mpi_dest(const void *sendbuf, const size_t sendcount);
+
+private:
+	int size;
+	int rank;
+};
+
+class MPIStub: public ProtoStub {
+
+public:
+	MPIStub();
+	virtual ~MPIStub();
+
+	virtual bool init(int argc, char **argv);
+	virtual bool recvsend(ProtoAddr addr, const void *recvbuf);
+
+private:
+	int size;
+	int rank;
+};
+#endif /* MPI_PROXY_STUB_H_ */

@@ -21,16 +21,34 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * ipc_plus.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Jul 5, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef IPSERVER_H_
+#define IPSERVER_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "ZProcessor.h"
+#include "proxy_stub.h"
 
-#endif /* PROTOCOL_SHARED_H_ */
+using namespace iit::datasys::zht::dm;
+
+/*
+ *
+ */
+class IPServer: public ZProcessor {
+public:
+	IPServer();
+	virtual ~IPServer();
+
+	virtual void process(const int& fd, const char * const buf,
+			sockaddr sender);
+
+private:
+	ProtoStub *_stub;
+};
+
+#endif /* IPSERVER_H_ */

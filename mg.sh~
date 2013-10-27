@@ -1,0 +1,1 @@
+mpicc -g -o mpiget mpiget.c -Llib -lzht -Iinclude -lstdc++ -lprotobuf -lprotobuf-c

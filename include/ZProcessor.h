@@ -21,16 +21,42 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * ZProcessor.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Aug 9, 2012
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef ZPROCESSOR_H_
+#define ZPROCESSOR_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stddef.h>
 
-#endif /* PROTOCOL_SHARED_H_ */
+namespace iit {
+namespace datasys {
+namespace zht {
+namespace dm {
+
+/*
+ *
+ */
+class ZProcessor {
+public:
+	ZProcessor();
+	virtual ~ZProcessor();
+
+	virtual void process(const int& fd, const char * const buf,
+			sockaddr sender) = 0;
+
+	virtual void sendback(const int& fd, const char *buf, const size_t& count,
+			sockaddr receiver, const int& protocol);
+};
+
+} /* namespace dm */
+} /* namespace zht */
+} /* namespace datasys */
+} /* namespace iit */
+#endif /* ZPROCESSOR_H_ */

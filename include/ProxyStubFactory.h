@@ -21,16 +21,28 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * ProxyStubFactory.h
  *
  *  Created on: Jun 21, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef PROXYSTUBFACTORY_H_
+#define PROXYSTUBFACTORY_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "proxy_stub.h"
+/*
+ *
+ */
+class ProxyStubFactory {
+public:
+	ProxyStubFactory();
+	virtual ~ProxyStubFactory();
 
-#endif /* PROTOCOL_SHARED_H_ */
+	static ProtoProxy* createProxy();
+
+	static ProtoStub* createStub();
+};
+
+#endif /* PROXYSTUBFACTORY_H_ */

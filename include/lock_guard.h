@@ -21,16 +21,35 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * lock_guard.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Apr 24, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef LOCK_GUARD_H_
+#define LOCK_GUARD_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <pthread.h>
+#include <stdlib.h>
 
-#endif /* PROTOCOL_SHARED_H_ */
+/*
+ *
+ */
+class lock_guard {
+public:
+	lock_guard(pthread_mutex_t *mutex);
+	virtual ~lock_guard();
+
+private:
+	bool lock();
+
+public:
+	bool unlock();
+
+private:
+	pthread_mutex_t *_mutex;
+};
+
+#endif /* LOCK_GUARD_H_ */

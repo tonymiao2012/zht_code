@@ -21,16 +21,67 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * proxy_stub.h
  *
- *  Created on: Jun 21, 2013
+ *  Created on: Jun 26, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef PROXY_STUB_H_
+#define PROXY_STUB_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <sys/types.h>
 
-#endif /* PROTOCOL_SHARED_H_ */
+#include "protocol_shared.h"
+
+class ProtoAddr {
+
+public:
+	ProtoAddr();
+	ProtoAddr(const ProtoAddr& addr);
+	virtual ~ProtoAddr();
+
+	int fd;
+	void *sender;
+};
+
+class ProtoProxy {
+
+public:
+	ProtoProxy();
+	virtual ~ProtoProxy();
+
+	virtual bool init(int argc, char **argv);
+
+	virtual bool send(const void *sendbuf, const size_t sendcount);
+
+	virtual bool recv(void *recvbuf, size_t &recvcount);
+
+	virtual bool sendrecv(const void *sendbuf, const size_t sendcount,
+			void *recvbuf, size_t &recvcount);
+
+	virtual bool teardown();
+};
+
+class ProtoStub {
+
+public:
+	ProtoStub();
+	virtual ~ProtoStub();
+
+	virtual bool init(int argc, char **argv);
+
+	virtual bool send(const void *sendbuf, const size_t sendcount);
+
+	virtual bool recv(void *recvbuf, size_t &recvcount);
+
+	virtual bool recvsend(ProtoAddr addr, const void *recvbuf);
+
+	virtual bool teardown();
+
+public:
+	virtual int sendBack(ProtoAddr addr, const void* sendbuf,
+			int sendcount) const;
+};
+#endif /* PROXY_STUB_H_ */

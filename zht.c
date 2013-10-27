@@ -1,0 +1,59 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include "c_zhtclient.h"
+
+/***********************************************************
+ 	Date: 2013/10/19 Author:Tony_M
+	Function:test how does ZHT work on single computer.
+	1. set up zht client. 
+	2. insert some data to zht. Make them saved on disk.
+	3. Look them up and show the result. 
+
+ ***********************************************************/
+// return code: 0 if succeed, or -1 if failed.
+const int LARGE_SIZE=64*1024;
+const int LOOKUP_SIZE=2*64*1024;
+
+void zhtDataTest(){ 
+	printf("Beginning.");
+	//insert to ZHT.
+	char* key="zx";
+	char* value=(char*)calloc(LARGE_SIZE,sizeof(char));
+	memset(value,'a',LARGE_SIZE-1);
+	int irc=c_zht_insert(key,value);
+	if(irc!=0){
+		printf("Insert fail.\n");
+		free(value);
+		exit(1);
+	}else{
+		printf("Success.Return code: %d\n",irc);
+		free(value);
+	}
+	//look them up.
+	char* result=(char*)calloc(LOOKUP_SIZE,sizeof(char));
+	if(result!=NULL){
+		int rrc=c_zht_lookup(key,result);
+		if(rrc!=0){
+			printf("Look up failed.\n");
+			free(result);
+			exit(1);
+		}else{
+			printf("Success.Result: %s\n",result);
+			free(result);
+		}
+	}
+}
+
+int main(){
+	char* zhtConf="src/zht.conf";
+	char* neighborConf="src/neighbor.conf";
+	//init client.
+	c_zht_init(zhtConf,neighborConf);
+	//run test.
+	zhtDataTest();
+	//free client.
+	c_zht_teardown();
+	return 0;
+}
+
+

@@ -21,16 +21,73 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * Util.h
  *
- *  Created on: Jun 21, 2013
- *      Author: Xiaobingo
+ *  Created on: Feb 14, 2013
+ *      Author: Tony
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef UTIL_H_
+#define UTIL_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include <stdint.h>
+#include <string>
+using namespace std;
 
-#endif /* PROTOCOL_SHARED_H_ */
+namespace iit {
+namespace datasys {
+namespace zht {
+namespace dm {
+
+class TimeUtil {
+public:
+	TimeUtil();
+	virtual ~TimeUtil();
+
+	static double getTime_usec();
+
+	static double getTime_msec();
+
+	static double getTime_sec();
+};
+
+/*
+ *
+ */
+class HashUtil {
+public:
+	HashUtil();
+	virtual ~HashUtil();
+
+	static uint64_t genHash(const char *pc);
+	static uint64_t genHash(const string& base);
+	static string genBase(const string& host, const int& port);
+	static string randomString(int lenbase);
+
+public:
+	static const int LEN_BASE;
+	static const uint64_t ULL_MAX;
+};
+
+/*
+ *
+ */
+class RingUtil {
+public:
+	RingUtil();
+	virtual ~RingUtil();
+
+public:
+	static void unwrap(uint64_t& begin, uint64_t& end);
+
+public:
+	static const uint64_t RING_BASE;
+	static const uint64_t TOKEN_MAX;
+};
+
+} /* namespace dm */
+} /* namespace zht */
+} /* namespace datasys */
+} /* namespace iit */
+#endif /* UTIL_H_ */

@@ -21,16 +21,55 @@
  *      Dongfang Zhao(dzhao8@@hawk.iit.edu) with nickname DZhao,
  *      Ioan Raicu(iraicu@cs.iit.edu).
  *
- * protocol_shared.h
+ * mq_proxy_stub.h
  *
  *  Created on: Jun 21, 2013
  *      Author: Xiaobingo
  *      Contributor: Tony, KWang, DZhao
  */
 
-#ifndef PROTOCOL_SHARED_H_
-#define PROTOCOL_SHARED_H_
+#ifndef MQ_PROXY_STUB_H_
+#define MQ_PROXY_STUB_H_
 
-#define IPC_MAX_MSG_SZ 102400
+#include "proxy_stub.h"
 
-#endif /* PROTOCOL_SHARED_H_ */
+#include "ipc_plus.h"
+using namespace IPC;
+
+/*
+ *
+ */
+class MQProxy: public ProtoProxy {
+public:
+	MQProxy();
+	explicit MQProxy(const unsigned int key0);
+	virtual ~MQProxy();
+
+	virtual bool send(const void *sendbuf, const size_t sendcount);
+
+	virtual bool recv(void *recvbuf, size_t &recvcount);
+
+	virtual bool sendrecv(const void *sendbuf, const size_t sendcount,
+			void *recvbuf, size_t &recvcount);
+
+private:
+	MsgClient _mc;
+};
+
+class MQStub: public ProtoStub {
+public:
+	MQStub();
+	explicit MQStub(const unsigned int key0);
+	virtual ~MQStub();
+
+	virtual bool send(const void *sendbuf, const size_t sendcount);
+
+	virtual bool recv(void *recvbuf, size_t &recvcount);
+
+	virtual bool teardown();
+
+private:
+	MsgServer _ms;
+};
+
+#endif /* MQ_PROXY_STUB_H_ */
