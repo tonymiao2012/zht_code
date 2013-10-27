@@ -1,3 +1,8 @@
+Caution: I am not the author of ZHT. I only use ZHT API for testing. 
+THe origin ZHT project: https://bitbucket.org/xiaobingo/iit.datasys.zht-mpi.git
+The following README is witten by xiaobingo on bitbucket.
+
+
 -------------------ABOUT ZHT-------------------
 ZHT is a zero-hop distributed hash table(see also the paper, http://datasys.cs.iit.edu/projects/ZHT/ZHT-CRC-PID2666213-Final.pdf).
 
